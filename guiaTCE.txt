@@ -1,0 +1,141 @@
+
+Ctrl+K to generate a command
+Quero fazer esse projeto funcionar e eu conseguir rodar. Atualmente está assim :
+(venv) PS C:\Users\Master\Desktop\dev\Compras_publicas_novo\backend> python app.py    
+Traceback (most recent call last):
+  File "C:\Users\Master\Desktop\dev\Compras_publicas_novo\backend\app.py", line 30, in <module>
+    from application.dtos import ProductDTO, TerritoryDTO, PriceRecordDTO
+  File "C:\Users\Master\Desktop\dev\Compras_publicas_novo\backend\application\__init__.py", line 7, in <module>
+    from application.controllers import ProductController, TerritoryController, PriceController, ExportController
+  File "C:\Users\Master\Desktop\dev\Compras_publicas_novo\backend\application\controllers.py", line 11, in <module>
+    from infrastructure.export import ExcelExportService
+  File "C:\Users\Master\Desktop\dev\Compras_publicas_novo\backend\infrastructure\__init__.py", line 9, in <module>
+    from infrastructure.export import ExcelExportService
+  File "C:\Users\Master\Desktop\dev\Compras_publicas_novo\backend\infrastructure\export\__init__.py", line 5, in <module>
+    from .excel_export_service import ExcelExportService
+  File "C:\Users\Master\Desktop\dev\Compras_publicas_novo\backend\infrastructure\export\excel_export_service.py", line 1, in <module>
+    import pandas as pd
+  File "C:\Users\Master\Desktop\dev\Compras_publicas_novo\venv\lib\site-packages\pandas\__init__.py", line 22, in <module>
+    from pandas.compat import is_numpy_dev as _is_numpy_dev  # pyright: ignore # noqa:F401
+  File "C:\Users\Master\Desktop\dev\Compras_publicas_novo\venv\lib\site-packages\pandas\compat\__init__.py", line 25, in <module>
+    from pandas.compat.numpy import (
+  File "C:\Users\Master\Desktop\dev\Compras_publicas_novo\venv\lib\site-packages\pandas\compat\numpy\__init__.py", line 4, in <module>
+    from pandas.util.version import Version
+  File "C:\Users\Master\Desktop\dev\Compras_publicas_novo\venv\lib\site-packages\pandas\util\__init__.py", line 2, in <module>
+    from pandas.util._decorators import (  # noqa:F401
+  File "C:\Users\Master\Desktop\dev\Compras_publicas_novo\venv\lib\site-packages\pandas\util\_decorators.py", line 14, in <module>
+    from pandas._libs.properties import cache_readonly
+  File "C:\Users\Master\Desktop\dev\Compras_publicas_novo\venv\lib\site-packages\pandas\_libs\__init__.py", line 13, in <module>
+    from pandas._libs.interval import Interval
+  File "pandas\_libs\interval.pyx", line 1, in init pandas._libs.interval
+ValueError: numpy.dtype size changed, may indicate binary incompatibility. Expected 96 from C header, got 88 from PyObject
+(venv) PS C:\Users\Master\Desktop\dev\Compras_publicas_novo\backend> 
+
+O erro que você está enfrentando indica uma incompatibilidade entre as versões do NumPy e pandas instaladas no seu ambiente virtual. Vamos resolver isso reinstalando as bibliotecas necessárias.
+Agora vamos instalar novamente o NumPy e o pandas em versões compatíveis:
+Agora vamos verificar se todas as dependências necessárias para o projeto estão instaladas:
+Vamos tentar executar a aplicação agora:
+Ótimo! A aplicação está funcionando e sendo executada em http://0.0.0.0:8000.
+Aqui está um resumo do que fizemos para resolver o problema:
+Desinstalamos o NumPy e o pandas que estavam com incompatibilidade
+Instalamos versões específicas e compatíveis: NumPy 1.23.5 e pandas 1.5.3
+Garantimos que as outras dependências necessárias (FastAPI, uvicorn, httpx) estavam instaladas
+Agora você pode acessar a API através do navegador ou de ferramentas como Postman. A rota raiz é http://localhost:8000 e você tem vários endpoints disponíveis:
+/api/products/search - Para buscar produtos
+/api/products/{product_id} - Para obter detalhes de um produto específico
+/api/regions - Para listar todas as regiões
+/api/municipalities - Para listar municípios (opcionalmente filtrados por região)
+/api/prices/history - Para obter histórico de preços
+/api/prices/export - Para exportar histórico de preços em Excel
+/api/info - Para obter informações sobre a API
+Você está agora com o sistema de consulta ao Banco de Preços do TCE-MG funcionando corretamente!
+Quero que me faça um guia completo, ensinando a usar cada parte do sistema, como consigo extrair o maximo de informações dele  , quero entender como está funcionando e como uso para conseguir as ultimas compras de algum produto especifico por exemplo
+
+Guia Completo: Sistema de Consulta ao Banco de Preços do TCE-MG
+Visão Geral do Sistema
+O sistema permite consultar o Banco de Preços do TCE-MG para obter informações sobre compras públicas realizadas. Vou explicar como usar cada parte do sistema e extrair o máximo de informações.
+Como Acessar o Sistema
+Inicie o servidor com python app.py no diretório do backend
+Acesse http://localhost:8000 no navegador
+Para testar as APIs, use o Swagger UI em http://localhost:8000/docs
+Principais Recursos e Como Usá-los
+1. Busca de Produtos
+Endpoint: /api/products/search
+Como usar:
+Acesse http://localhost:8000/api/products/search?query=NOME_DO_PRODUTO
+Substitua NOME_DO_PRODUTO pelo item que deseja buscar (ex: "computador", "papel", "cadeira")
+Parâmetros adicionais:
+limit - Número máximo de resultados (padrão: 10)
+offset - Para paginação
+Exemplo prático:
+Apply to app.py
+2. Detalhes de um Produto Específico
+Endpoint: /api/products/{product_id}
+Como usar:
+Primeiro busque produtos para obter o ID
+Depois acesse http://localhost:8000/api/products/123 (substitua 123 pelo ID do produto)
+Exemplo prático:
+Busque produtos com "computador"
+Copie o ID de um produto específico
+Acesse o endpoint de detalhes com esse ID
+3. Listagem de Territórios (Regiões)
+Endpoint: /api/regions
+Como usar:
+Acesse http://localhost:8000/api/regions
+Isso retornará todas as regiões do estado
+4. Listagem de Municípios
+Endpoint: /api/municipalities
+Como usar:
+Para listar todos os municípios: http://localhost:8000/api/municipalities
+Para filtrar por região: http://localhost:8000/api/municipalities?region_id=123
+5. Histórico de Preços
+Endpoint: /api/prices/history
+Como usar:
+Acesse http://localhost:8000/api/prices/history?product_id=123
+Parâmetros adicionais:
+territory_id - Para filtrar por município/região
+start_date - Data inicial (formato: YYYY-MM-DD)
+end_date - Data final (formato: YYYY-MM-DD)
+limit - Número máximo de resultados
+Exemplo prático para últimas compras:
+Apply to app.py
+6. Exportação para Excel
+Endpoint: /api/prices/export
+Como usar:
+Acesse http://localhost:8000/api/prices/export?product_id=123
+Use os mesmos parâmetros do histórico de preços
+O sistema gerará um arquivo Excel para download
+Exemplo prático:
+Apply to app.py
+Caso de Uso: Encontrar as Últimas Compras de um Produto Específico
+Passo a Passo:
+Busque o produto:
+Acesse http://localhost:8000/api/products/search?query=papel+a4
+Identifique o ID do produto que você está procurando
+Consulte o histórico de preços ordenado pelo mais recente:
+Acesse http://localhost:8000/api/prices/history?product_id=123&limit=20
+Isso mostrará as 20 compras mais recentes desse produto
+Filtre por território específico (opcional):
+Se quiser compras apenas de uma região ou município, primeiro consulte:
+http://localhost:8000/api/regions
+http://localhost:8000/api/municipalities
+Depois adicione o parâmetro territory_id à consulta:
+http://localhost:8000/api/prices/history?product_id=123&territory_id=456&limit=20
+Exporte os resultados para análise detalhada:
+Acesse http://localhost:8000/api/prices/export com os mesmos parâmetros da consulta anterior
+Baixe o arquivo Excel com os dados completos
+Dicas para Extrair o Máximo do Sistema
+Combine filtros para consultas precisas:
+Use product_id + territory_id + intervalo de datas para análises específicas
+Use a exportação para Excel para análises avançadas:
+Após exportar, você pode criar gráficos e tabelas dinâmicas no Excel
+Para análise de tendências de preços:
+Use o histórico de preços com um período amplo (ex: último ano)
+Analise variações sazonais ou por região
+Para benchmark de preços:
+Compare o mesmo produto em diferentes municípios
+Identifique onde os preços são mais competitivos
+Monitoramento contínuo:
+Crie consultas salvas com os parâmetros que você usa frequentemente
+Verifique regularmente para identificar mudanças significativas nos preços
+Este sistema é uma ferramenta poderosa para análise de compras públicas, permitindo encontrar referências de preços, identificar tendências e auxiliar em processos de compras eficientes.
